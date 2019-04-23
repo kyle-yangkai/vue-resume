@@ -36,27 +36,27 @@ export default {
         {
         icon: 'iconuser',
         active: 'active',
-        iconDetail: '标签1'
+        iconDetail: '关于我'
         },
         {
         icon: 'iconschool1',
         active: '',
-        iconDetail: '标签2'
+        iconDetail: '教育经历'
         },
         {
         icon: 'iconcode',
         active: '',
-        iconDetail: '标签3'
+        iconDetail: '技术栈'
         },
         {
         icon: 'iconjob',
         active: '',
-        iconDetail: '标签4'
+        iconDetail: '工作经历'
         },
         {
         icon: 'iconproject',
         active: '',
-        iconDetail: '标签5'
+        iconDetail: '项目经历'
         }
       ],
       // 切换页面列表

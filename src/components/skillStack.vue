@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background">
     3
   </div>
 </template>
@@ -20,8 +20,8 @@ export default {
 }
 </script>
 <style scoped>
-div {
-  background:rgb(216, 93, 233);
+.background {
+  background:linear-gradient(to bottom, rgb(0,254,248), rgb(0,214,209));
   width: 100vw;
   height: 100vh;
 }
