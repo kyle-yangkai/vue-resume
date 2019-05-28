@@ -1,8 +1,11 @@
 <template>
-  <div id="resume">
-    <ul id="tab-dot" v-show="isPc">
+  <div id="resume" class="resume">
+    <ul id="tab-dot"  class="tab-dot" v-show="isPc">
       <li @click="toggleTab(index,$event)" v-for="(item,index) in items" :key="index">
-        <i :class="[item.icon, item.active,'iconfont']"></i><span class="iconDetail">{{item.iconDetail}}</span>
+        <svg :class="[item.active, 'icon','pageIcon']" aria-hidden="true" >
+          <use :xlink:href="item.icon"></use>
+        </svg>
+        <span class="iconDetail">{{item.iconDetail}}</span>
       </li>
     </ul>
     <div class="content">
@@ -21,46 +24,56 @@ import skillStack from '@/components/skillStack.vue'
 import works from '@/components/works.vue'
 import education from '@/components/education.vue'
 import job from '@/components/job.vue'
-import {debounceFunc, mobileCheck} from '@/util.js'
+import {debounceFunc, mobileCheck, goChart} from '@/util.js'
+import store from '@/store/store.js'
 export default {
   name: 'resume',
   data () {
     return {
       curIndex: 0,  //初始化当前页面序号
       slideDirection: 'up', //初始化页面滑动方向
-      isPc: true,   //pa端显示切换按钮
       startY: 0,    // 初始化滑动开始位置
       endY: 0,      // 初始化滑动结束位置
       // 切换按钮列表
       items: [
         {
-        icon: 'iconuser',
+        icon: '#iconuser',
         active: 'active',
         iconDetail: '关于我'
         },
         {
-        icon: 'iconschool1',
+        icon: '#iconschool1',
         active: '',
         iconDetail: '教育经历'
         },
         {
-        icon: 'iconcode',
+        icon: '#iconcode',
         active: '',
         iconDetail: '技术栈'
         },
         {
-        icon: 'iconjob',
+        icon: '#iconjob',
         active: '',
         iconDetail: '工作经历'
         },
         {
-        icon: 'iconproject',
+        icon: '#iconproject',
         active: '',
         iconDetail: '项目经历'
         }
       ],
       // 切换页面列表
       pageList:['aboutMe','education','skillStack','job','works'],
+      // 技能页面数据
+      chartData: [
+        [100,"#2dc6c8","git","熟练使用git工具进行版本管理及团队协作"], 
+        [100,"#b6a2dd", "webpack","熟练使用webpack打包发布"], 
+        [200,"#5ab1ee","vue全家桶","熟练使用vue全家桶完成项目开发"],
+        [200,"#5c9c57","jquery","熟练使用jquery进行常规dom操作"], 
+        [300,"#d7797f","html","熟悉常用html元素特性，熟悉盒模型及各种布局方式"],
+        [300,"#7490cf","css","熟练使用css布局和动画，伪类，伪元素等"],
+        [400,"#b35a49","javascript","熟悉es6，熟悉模块化开发，熟悉封装"]
+      ]
     }
   },
   components: {
@@ -73,6 +86,9 @@ export default {
   computed:{
       pageNum () {
         return this.pageList.length
+      },
+      isPc () {
+        return store.state.isPc
       }
   },
   mounted () {
@@ -91,6 +107,9 @@ export default {
           items[i].active = ""
         }
         items[index].active = "active"
+        if(index === 2){
+          goChart(this.chartData)
+        }
         // 更改页面滑动方式
          if(this.curIndex > index){
            this.slideDirection = "down"
@@ -133,16 +152,16 @@ export default {
         this.endY = e.changedTouches[0].clientY
         let distance = this.endY - this.startY
         if(distance<0){
-            this.slideDirection = "up"
-            if(this.curIndex<this.pageNum-1){
-                this.curIndex++
-            }
+          this.slideDirection = "up"
+          if(this.curIndex<this.pageNum-1){
+            this.curIndex++
+          }
         }
         if(distance>0){
-            this.slideDirection = "down"
-            if(this.curIndex>0){
-                this.curIndex--
-            }
+          this.slideDirection = "down"
+          if(this.curIndex>0){
+            this.curIndex--
+          }
         }
     },
     // 显示页面
@@ -152,14 +171,14 @@ export default {
   },
   created () {
     if(mobileCheck()){  //移动端隐藏切换按钮
-      this.isPc = false
+      store.commit('isNotPc')
     }
   }
 }
 </script>
 
 <style scope>
-#resume {
+.resume {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -177,43 +196,56 @@ export default {
 }
 
 /* 切换按钮样式 */
-#tab-dot {
+.tab-dot {
   padding: 0;
   margin: 0;
   position: absolute;
   /* width: 100px; */
-  top: 45%;
-  height:10%;
-  right:30px;
+  top: 41%;
+  right:0.2rem;
   display: block;
   list-style: none;
-  z-index: 999;
+  z-index: 2;
 }
-#tab-dot li{
+.tab-dot li{
   position: relative;
+  height: auto;
+  font-size: 0.1rem;
   /* display: flex; */
   vertical-align:middle;
 }
 .iconDetail {
   position: absolute;
   display: none;
-  right:50px;
+  right:0.34rem;
   top:0;
-  min-width:100px;
+  min-width:0.6rem;
+  padding: 0 0.05rem;
   background-color: #2c3e50;
   color: #fff;
-  border-radius: 10%;
-  line-height: 30px;
+  border-radius: 5%;
+  border-top-right-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
+  height: 0.25rem;
+  line-height: 0.25rem;
+  font-size: 0.1rem;
   /* width: 100%; */
 }
-.iconfont:hover {
-  font-size: 30px;
+/* @media screen and (max-width: 700px)  {
+  .iconDetail {
+    min-width:0.9rem;
+  }
+} */
+.pageIcon:hover {
+  width: 0.25rem;
+  height: 0.25rem;
 }
-.iconfont:hover + .iconDetail{
+.active {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+.pageIcon:hover + .iconDetail{
   display: block;
-}
-li>.active {
-  font-size: 30px;
 }
 
 /*************************** 页面切换动画 ***************************/
