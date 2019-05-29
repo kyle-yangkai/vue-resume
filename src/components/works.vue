@@ -9,8 +9,8 @@
                 <img :src="item.picUrl" alt="">
                 <p class="name"><span>{{item.name}}</span></p>
                 <p class="link">
-                  <a :href="item.githubUrl" class="link1" target="view_frame">源码</a>
-                  <a :href="item.showUrl" class="link2" target="view_frame">示例</a>
+                  <a :href="item.githubUrl" class="link1" target="view_frame" :download="item.download">{{item.git}}</a>
+                  <a :href="item.showUrl" class="link2" target="view_frame" >{{item.show}}</a>
                 </p>
               </div>
             </div>
@@ -36,30 +36,41 @@ export default {
         {
           name: '整点内部Erp系统',
           picUrl: '/static/erp.png',
+          show: '示例',
+          git: '源码',
           showUrl: 'https://kyle-yang.top/main.html',
           githubUrl: 'https://kyle-yang.top/main.html'
         },
         {
           name: '个人简历（网站版）',
           picUrl: '/static/resume.png',
+          show: '示例',
+          git: '源码',
           showUrl: 'https://kyle-yang.top/resume',
           githubUrl: 'https://github.com/kyle-yangkai/vue-resume'
         },
         {
           name: '饿了么手机端',
           picUrl: '/static//eleme.jpg',
+          show: '示例',
+          git: '源码',
           showUrl: 'https://kyle-yang.top/eleme/',
           githubUrl: 'https://github.com/kyle-yangkai/vue-mobil'
         },
         {
           name: '个人简历(pdf下载版）',
-          picUrl: '/static/demo.png',
-          showUrl: 'https://kyle-yang.top/showDemo/home.html',
-          githubUrl: 'https://github.com/kyle-yangkai/cssStudy/tree/master/%E7%BD%91%E7%AB%99%E4%B8%B4%E6%91%B9/show'
+          picUrl: '/static/download.jpg',
+          show: '查看',
+          git: '下载',
+          showUrl: 'https://kyle-yang.top/yangkai.pdf',
+          githubUrl: 'https://kyle-yang.top/yangkai.pdf',
+          download: '杨凯-前端工程师'
         },
         {
           name: '临摹静态网站',
           picUrl: '/static/demo.png',
+          show: '示例',
+          git: '源码',
           showUrl: 'https://kyle-yang.top/showDemo/home.html',
           githubUrl: 'https://github.com/kyle-yangkai/cssStudy/tree/master/%E7%BD%91%E7%AB%99%E4%B8%B4%E6%91%B9/show'
         },
